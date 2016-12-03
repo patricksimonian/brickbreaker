@@ -8,20 +8,22 @@
   var y = 150;
   var dx = 2;
   var dy = 4;
+  var fill = "";
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
-  var r = Math.random();
-
+  var r = 10;
   function init() {
     return setInterval(draw, 10);
   }
 
-  function circle(x, y, r) {
+  function circle(x, y, r, fill) {
+    ctx.fillStyle = fill;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();
   }
+
   function rect(x,y,w,h) {
     ctx.beginPath();
     ctx.rect(x,y,w,h);
@@ -33,20 +35,31 @@
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
   }
 
+  function genColor() {
+    console.log('called')
+    var chars = ['a', 'c', 'b', 'd'];
+    var hash = '';
+    hash += chars[Math.floor(Math.random() * chars.length)].toUpperCase();
+    while(hash.length < 3) {
+      hash += Math.floor(Math.random() * 10);
+    }
+    fill = `#${hash}`;
+  }
   function draw() {
     clear();
-    circle(x, y, 10);
-
-    if (x + dx > WIDTH || x + dx < 0)
+    if (x > WIDTH || x < 0){
       dx = -dx;
-    if (y + dy > HEIGHT || y + dy < 0)
+      genColor();
+    }
+    if (y  > HEIGHT || y  < 0) {
       dy = -dy;
-
+      genColor();
+    }
+    circle(x, y, r, fill);
     x += dx;
     y += dy;
 
   }
-
   init();
 
 })();
