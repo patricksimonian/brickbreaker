@@ -17,9 +17,22 @@
   //rectanlge x movement
   var rx = 50;
   var fill = "#d32";
+  var move = null;
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
-  document.addEventListener('keydown', moveRect)
+  document.addEventListener('keydown', function(e) {
+    if(e.key === 'ArrowLeft') {
+      move = 'left';
+    }
+    if (e.key === 'ArrowRight') {
+      move = 'right';
+    }
+  })
+  document.addEventListener('keyup', function(e) {
+    if(e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      move = null;
+    }
+  });
   //brick draw
   var bricks = levelParser(level1);
 
@@ -47,12 +60,11 @@
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
   }
 
-  function moveRect(event) {
-    event.stopPropagation();
-    if(event.key === 'ArrowLeft') {
-      rx+= -15;
-    } else if(event.key === 'ArrowRight') {
-      rx+= 15;
+  function moveRect() {
+    if(move === 'left') {
+      rx+= -5;
+    } else if(move === 'right') {
+      rx+= 5;
     }
   }
   function genColor() {
@@ -88,7 +100,7 @@
     clear();
     circle(x, y, r);
     checkHit();
-
+    moveRect();
     bricks.forEach(function (elm, index) {
       ctx.fillStyle = colours[index];
       ctx.beginPath();
