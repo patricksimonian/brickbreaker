@@ -15,7 +15,7 @@
 function levelParser(level) {
   //split elements by their commas
   var array = level.split(",");
-  var level = [];
+  this.level = [];
   array.forEach( function(elm, index) {
     var bricks = elm.split("");
     bricks.forEach( function(elm2, index2) {

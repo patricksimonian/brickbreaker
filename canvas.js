@@ -2,7 +2,7 @@
 (function initialize() {
   var canvas = document.getElementById('game');
   var level1 = "===========,== == ====, == == == , === === =";
-  var colours = [];
+
 
   canvas.height = 500;
   canvas.width = 500;
@@ -13,10 +13,9 @@
   var r = 10;
   var dx = 2;
   var dy = 4;
-
+  var game = new levelParser(level1);
   //rectanlge x movement
   var rx = 50;
-  var fill = "#d32";
   var move = null;
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
@@ -40,22 +39,6 @@
     return setInterval(draw, 10);
   }
 
-  function circle(x, y, r) {
-    ctx.fillStyle = fill;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI*2, true);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  function rect(x,y,w,h) {
-    ctx.fillStyle = "#eec"
-    ctx.beginPath();
-    ctx.rect(x,y,w,h);
-    ctx.closePath();
-    ctx.fill();
-  }
-
   function clear() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
   }
@@ -66,21 +49,15 @@
     } else if(move === 'right') {
       rx+= 5;
     }
-  }
-  function genColor() {
-    var chars = ['a', 'c', 'b', 'd'];
-    var hash = '';
-    hash += chars[Math.floor(Math.random() * chars.length)].toUpperCase();
-    while(hash.length < 3) {
-      hash += Math.floor(Math.random() * 10);
+    //prevent brick from moving out of bounds
+    if(rx <= 0) {
+      rx = 0;
+    } else if(rx + 100 >= canvas.width) {
+      rx = canvas.width - 100;
     }
-    return `#${hash}`;
   }
-  // temp
-  for(var i = 0; i < 30; i++) {
-    colours.push(genColor());
-  }
-  function checkHit(elm) {
+
+  function checkHit(genBricks) {
     var rowheight = 25 + r - 2;
     var colwidth = 50;
     row = Math.floor(y/rowheight);
@@ -90,32 +67,27 @@
       var brick = bricks.find( function(elm) {
         return ((elm.posX === col) && (elm.posY === row));
       });
-      if(brick && !brick.isHit) {
+      //if that brick exists and is flagged as not hit
+      if(brick && brick.isHit === false) {
         dy = -dy;
         brick.isHit = true;
       }
     }
   }
   function draw() {
-    clear();
-    circle(x, y, r);
-    checkHit();
     moveRect();
-    bricks.forEach(function (elm, index) {
-      ctx.fillStyle = colours[index];
-      ctx.beginPath();
-      if(elm.isHit === false) {
-        ctx.rect(elm.posX * 50, elm.posY * 25, elm.width, elm.height);
-      }
-      ctx.closePath();
-      ctx.fill();
-    });
-    if(rx <= 0) {
-      rx = 0;
-    } else if(rx + 100 >= canvas.width) {
-      rx = canvas.width - 100;
-    }
-    rect(rx, 450, 100, 25);
+    clear();
+    circle(ctx, x, y, r);
+    rect(ctx, rx, 450, 100, 25);
+    checkHit(genBricks);
+    genBricks(ctx, game);
+
+    // if(bricks.every(function (elm) {
+    //   if(elm.isHit === true || elm.isHit === null) {
+    //     return true
+    //   }})) {
+    //   console.log("game over!")
+    // }
 
     if (x + dx > (WIDTH - (r - 2)) || x + dy < (r - 2)){
       dx = -dx;
@@ -123,6 +95,7 @@
     if (y + dy > (HEIGHT - (r - 2)) || y + dy < (r - 2)) {
       dy = -dy;
     }
+    //collision against paddle
     if (y + dy > (450 - (r  - 2)) && (x > rx && x < rx + 100)) {
 
       dy = -dy;
