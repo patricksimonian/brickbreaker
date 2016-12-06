@@ -7,8 +7,10 @@
   canvas.height = 500;
   canvas.width = 500;
   var ctx = canvas.getContext("2d");
+  //for ball
   var x = 150;
   var y = 150;
+  var r = 10;
   var dx = 2;
   var dy = 4;
 
@@ -67,12 +69,12 @@
     colours.push(genColor());
   }
   function checkHit(elm) {
-    var rowheight = 25;
+    var rowheight = 25 + r - 2;
     var colwidth = 50;
     row = Math.floor(y/rowheight);
     col = Math.floor(x/colwidth);
     //if so, reverse the ball and mark the brick as broken
-    if (y < (bricks.length /10) * rowheight && row >= 0 && col >= 0) {
+    if (y < (bricks.length /10) * (rowheight) && row >= 0 && col >= 0) {
       var brick = bricks.find( function(elm) {
         return ((elm.posX === col) && (elm.posY === row));
       });
@@ -84,7 +86,7 @@
   }
   function draw() {
     clear();
-    circle(x, y, 10);
+    circle(x, y, r);
     checkHit();
 
     bricks.forEach(function (elm, index) {
@@ -103,13 +105,13 @@
     }
     rect(rx, 450, 100, 25);
 
-    if (x + dx > WIDTH || x + dy < 0){
+    if (x + dx > (WIDTH - (r - 2)) || x + dy < (r - 2)){
       dx = -dx;
     }
-    if (y + dy > HEIGHT || y + dy < 0) {
+    if (y + dy > (HEIGHT - (r - 2)) || y + dy < (r - 2)) {
       dy = -dy;
     }
-    if (y + dy > 450 && (x > rx && x < rx + 100)) {
+    if (y + dy > (450 - (r  - 2)) && (x > rx && x < rx + 100)) {
 
       dy = -dy;
     }
