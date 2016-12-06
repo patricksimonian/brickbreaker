@@ -13,7 +13,8 @@
   var r = 10;
   var dx = 2;
   var dy = 4;
-  var game = new levelParser(level1);
+  var game = new LevelParser()
+  game.buildLevel(level1);
   //rectanlge x movement
   var rx = 50;
   var move = null;
@@ -33,7 +34,7 @@
     }
   });
   //brick draw
-  var bricks = levelParser(level1);
+  var bricks = game.getCurrentLevel();
 
   function init() {
     return setInterval(draw, 10);
@@ -80,7 +81,7 @@
     circle(ctx, x, y, r);
     rect(ctx, rx, 450, 100, 25);
     checkHit(genBricks);
-    genBricks(ctx, game);
+    genBricks(ctx, game.getCurrentLevel());
 
     // if(bricks.every(function (elm) {
     //   if(elm.isHit === true || elm.isHit === null) {

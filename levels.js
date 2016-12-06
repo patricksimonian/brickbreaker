@@ -12,13 +12,18 @@
 // is an empty space of 25 height and 50 width
 //----------------------------------------------
 
-function levelParser(level) {
+function LevelParser() {
   //split elements by their commas
-  var array = level.split(",");
   this.level = [];
-  array.forEach( function(elm, index) {
+  this.levels = [];
+  return this;
+}
+
+LevelParser.prototype.buildLevel = function(level) {
+  var array = level.split(",");
+  array.forEach((elm, index) => {
     var bricks = elm.split("");
-    bricks.forEach( function(elm2, index2) {
+    bricks.forEach((elm2, index2) => {
       brick = {};
       brick.posX = index2;
       brick.posY = index;
@@ -27,17 +32,31 @@ function levelParser(level) {
           brick.height = 25;
           brick.width = 50;
           brick.isHit = false;
-          level.push(brick);
+          this.level.push(brick);
           break;
         case "":
           brick.height = 0;
           brick.width = 0;
           brick.isHit = null;
-          level.push(brick);
+          this.level.push(brick);
           break;
       }
     });
   });
-  return level;
+  this.levels.push(this.level);
+  return this;
 }
 
+LevelParser.prototype.getCurrentLevel = function() {
+  return this.level;
+}
+
+LevelParser.prototype.getAllLevels = function() {
+  return this.levels;
+}
+
+LevelParser.prototype.reset = function() {
+  this.level = [];
+  this.levels = [];
+  return this;
+}
