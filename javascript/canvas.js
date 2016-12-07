@@ -1,6 +1,7 @@
 
 (function initialize() {
   var level1 = "===========,== == ====, == == == , === === =";
+  var level2 = "  ==  ==  ==  ==, == == == == ===, ====     =   ";
   var canvas = document.getElementById('game');
   var ctx = canvas.getContext("2d");
   canvas.height = 500;
@@ -9,21 +10,21 @@
   var WIDTH = canvas.width;
 
   //for ball
-  var x = 150;
-  var y = 150;
+  var x = .5 * WIDTH;
+  var y = .5 * HEIGHT;
   var r = 10;
   var dx = 2;
   var dy = 4;
 
   //paddle
-  var rx = 50;
-  var ry = 450;
-  var rWidth = 100;
-  var rHeight = 25;
+  var rx = .1 * WIDTH;
+  var ry = .9 * HEIGHT;
+  var rWidth = .2 * WIDTH;
+  var rHeight = .05 * HEIGHT;
   var move = null;
 
   //get current level
-  var game = new LevelParser().buildLevel(level1);
+  var game = new LevelParser(WIDTH, HEIGHT).buildLevel(level1);
   var bricks = game.getCurrentLevel();
 
   //event listener for moving paddle
@@ -45,8 +46,8 @@
     //prevent brick from moving out of bounds
     if(rx <= 0) {
       rx = 0;
-    } else if(rx + 100 >= canvas.width) {
-      rx = canvas.width - 100;
+    } else if(rx + rWidth >= canvas.width) {
+      rx = canvas.width - rWidth;
     }
   }
 
@@ -67,9 +68,9 @@
   }
   //current logic to check for brick collisions
   //is being phased out
-  function checkHit(genBricks) {
-    var rowheight = 25 + r - 2;
-    var colwidth = 50;
+  function checkHit() {
+    var rowheight = bricks[0].height + r;
+    var colwidth = bricks[0].width;
     row = Math.floor(y/rowheight);
     col = Math.floor(x/colwidth);
     //if so, reverse the ball and mark the brick as broken
@@ -91,7 +92,7 @@
     circle(ctx, x, y, r);
     //paddle
     rect(ctx, rx, ry, rWidth, rHeight);
-    checkHit(genBricks);
+    checkHit();
     genBricks(ctx, game.getCurrentLevel());
     // willCollideWith(
     //   {name: 'paddle', posY: ry, posX: rx, dimY: rHeight, dimX: rWidth},
@@ -112,8 +113,6 @@
         dx = dx > 0 ? -3 : 2;
       } else if(x > (rx + (.75 * rWidth)) && x < (rx + rWidth)) {
         dx = dx > 0 ? 3 : 2;
-      } else {
-        dx = dx > 0 ? -dx : dx;
       }
       dy = -dy;
     }
