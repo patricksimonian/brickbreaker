@@ -38,7 +38,7 @@ function genBricks(ctx, level) {
     ctx.fill();
   });
 }
-// temp
+// temp for making brick colours..
 (function initializeColours() {
   for(var i = 0; i < 30; i++) {
     colours.push(genColor());

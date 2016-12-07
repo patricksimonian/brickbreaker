@@ -1,16 +1,44 @@
 
-// this level parser takes in a comma seperated string and created an object dependant
-// on the value of each character in the string
-//==================LEGEND======================
-// ',':
-// is a point where the array is split and emulates a row in the 2d grid of bricks
-//----------------------------------------------
-// '=':
-// is a brick of 25 height and 50 width
-//----------------------------------------------
-// ' ':
-// is an empty space of 25 height and 50 width
-//----------------------------------------------
+//LevelParser
+//
+// constructor:
+//    when instantiating this class, two empty arrays are intialized (level, levels)
+//    level [] is an array holding the current template for brick layout
+//    levels [[]] is a double array holding each level array into it so that (in the future)
+//    one could replay a level by simply calling an element out of the array
+//
+//
+// methods:
+//
+// buildLevel:
+//   buildLevel takes in a string as an argument and then parses it into an array of objects
+//   via the legend described below
+//          ==================LEGEND======================
+//          ',':
+//          is a point where the string is split into a build array.
+//          Each element in this array is associated with
+//          a row starting from 0,0 on the canvas and
+//          incrementing by the height of a brick(25)
+//          ----------------------------------------------
+//          '=':
+//           is a brick of 25 height and 50 width
+//          ----------------------------------------------
+//          ' ':
+//           is an empty space of 25 height and 50 width
+//          ----------------------------------------------
+//
+//  reset:
+//
+//    resets the level and levels array to empty
+//
+//
+//   getCurrentLevel:
+//      returns level []
+//
+//
+//  getAllLevels:
+//
+//      returns levels [[]]
 
 function LevelParser() {
   //split elements by their commas
@@ -20,9 +48,9 @@ function LevelParser() {
 }
 
 LevelParser.prototype.buildLevel = function(level) {
-  var array = level.split(",");
+  let array = level.split(",");
   array.forEach((elm, index) => {
-    var bricks = elm.split("");
+    let bricks = elm.split("");
     bricks.forEach((elm2, index2) => {
       brick = {};
       brick.posX = index2;

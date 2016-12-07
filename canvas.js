@@ -1,20 +1,23 @@
 
 (function initialize() {
   var canvas = document.getElementById('game');
+  var ctx = canvas.getContext("2d");
+  canvas.height = 500;
+  canvas.width = 500;
   var level1 = "===========,== == ====, == == == , === === =";
 
 
-  canvas.height = 500;
-  canvas.width = 500;
-  var ctx = canvas.getContext("2d");
   //for ball
   var x = 150;
   var y = 150;
   var r = 10;
   var dx = 2;
   var dy = 4;
-  var game = new LevelParser()
-  game.buildLevel(level1);
+
+  //get current level
+  var game = new LevelParser().buildLevel(level1);
+  var bricks = game.getCurrentLevel();
+
   //rectanlge x movement
   var rx = 50;
   var move = null;
@@ -33,8 +36,6 @@
       move = null;
     }
   });
-  //brick draw
-  var bricks = game.getCurrentLevel();
 
   function init() {
     return setInterval(draw, 10);
@@ -89,7 +90,7 @@
     //   }})) {
     //   console.log("game over!")
     // }
-
+    //collision against wall
     if (x + dx > (WIDTH - (r - 2)) || x + dy < (r - 2)){
       dx = -dx;
     }
@@ -108,63 +109,3 @@
   init();
 
 })();
-//draw a circle
-
-//the rectangle is half transparent
-
-
-  // document.addEventListener('keydown', storeDown);
-  // document.addEventListener('keyup', storeUp);
-
-  // function storeDown(event) {
-  //   switch (event.key) {
-  //     case 'ArrowUp':
-  //       keyDown.up = true;
-  //       break;
-  //     case 'ArrowDown':
-  //       keyDown.down = true;
-  //       break;
-  //     case 'ArrowLeft':
-  //       keyDown.left = true;
-  //       break;
-  //     case 'ArrowRight':
-  //       keyDown.right = true;
-  //       break;
-  //   }
-  //   makeMove();
-  // }
-  // function storeUp(event) {
-  //   switch (event.key) {
-  //     case 'ArrowUp':
-  //       keyDown.up = false;
-  //       break;
-  //     case 'ArrowDown':
-  //       keyDown.down = false;
-  //       break;
-  //     case 'ArrowLeft':
-  //       keyDown.left = false;
-  //       break;
-  //     case 'ArrowRight':
-  //       keyDown.right = false;
-  //       break;
-  //   }
-  // }
-  // function makeMove() {
-  //   console.log(keyDown.up, keyDown.left)
-  //   if(keyDown.up && keyDown.right) {
-  //   } else if(keyDown.up && keyDown.left) {
-  //     draw(-4, 4);
-  //   } else if(keyDown.down && keyDown.left) {
-  //     draw(4, -4);
-  //   } else if(keyDown.down && keyDown.right) {
-  //     draw(4, 4);
-  //   } else if(keyDown.up) {
-  //     draw(0, -4);
-  //   } else if(keyDown.down) {
-  //     draw(0, 4);
-  //   } else if(keyDown.left) {
-  //     draw(-4, 0);
-  //   } else if(keyDown.right) {
-  //     draw(4, 0);
-  //   }
-  // }
