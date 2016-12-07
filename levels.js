@@ -52,29 +52,37 @@ LevelParser.prototype.buildLevel = function(level) {
   array.forEach((elm, index) => {
     let bricks = elm.split("");
     bricks.forEach((elm2, index2) => {
-      brick = {};
-      brick.posX = index2;
-      brick.posY = index;
-      switch(elm2) {
-        case "=":
-          brick.height = 25;
-          brick.width = 50;
-          brick.isHit = false;
-          this.level.push(brick);
-          break;
-        case "":
-          brick.height = 0;
-          brick.width = 0;
-          brick.isHit = null;
-          this.level.push(brick);
-          break;
+      //temporary to prevent additional bricks being printed out of screen
+      // on typos (adding more than 10 bricks to a row)
+      if(index2 < 10) {
+        brick = {};
+        brick.posX = index2;
+        brick.posY = index;
+        switch(elm2) {
+          case "=":
+            brick.height = 25;
+            brick.width = 50;
+            brick.isHit = false;
+            this.level.push(brick);
+            break;
+          case "":
+            brick.height = 0;
+            brick.width = 0;
+            brick.isHit = null;
+            this.level.push(brick);
+            break;
+        }
       }
     });
   });
   this.levels.push(this.level);
   return this;
 }
-
+// LevelParser.prototype.modLevel = function(brickMod) {
+//   this.level = this.level.map((brick) => {
+//     return
+//   });
+// }
 LevelParser.prototype.getCurrentLevel = function() {
   return this.level;
 }

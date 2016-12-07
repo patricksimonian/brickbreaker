@@ -20,6 +20,7 @@
 
   //rectanlge x movement
   var rx = 50;
+  var ry = 450;
   var move = null;
   var WIDTH = canvas.width;
   var HEIGHT = canvas.height;
@@ -38,7 +39,7 @@
   });
 
   function init() {
-    return setInterval(draw, 10);
+    return setInterval(draw, 500  );
   }
 
   function clear() {
@@ -76,14 +77,18 @@
       }
     }
   }
+
   function draw() {
+    //current angle of ball
+    let theta = Math.atan((dy/dx)) + (.5 * Math.PI);
     moveRect();
     clear();
     circle(ctx, x, y, r);
-    rect(ctx, rx, 450, 100, 25);
+    //paddle
+    rect(ctx, rx, ry, 100, 25);
     checkHit(genBricks);
     genBricks(ctx, game.getCurrentLevel());
-
+    willCollideWith({name: 'paddle', posY: ry, posX: rx, dimY: 25, dimX: 100},{name: 'ball', posY: y, posX: x, radius: r, dx: dx, dy: dy});
     // if(bricks.every(function (elm) {
     //   if(elm.isHit === true || elm.isHit === null) {
     //     return true
