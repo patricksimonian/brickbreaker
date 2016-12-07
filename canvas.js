@@ -45,8 +45,8 @@
     //prevent brick from moving out of bounds
     if(rx <= 0) {
       rx = 0;
-    } else if(rx + 100 >= canvas.width) {
-      rx = canvas.width - 100;
+    } else if(rx + rWidth >= canvas.width) {
+      rx = canvas.width - rWidth;
     }
   }
 
@@ -67,9 +67,9 @@
   }
   //current logic to check for brick collisions
   //is being phased out
-  function checkHit(genBricks) {
-    var rowheight = 25 + r - 2;
-    var colwidth = 50;
+  function checkHit() {
+    var rowheight = bricks[0].height + r;
+    var colwidth = bricks[0].width;
     row = Math.floor(y/rowheight);
     col = Math.floor(x/colwidth);
     //if so, reverse the ball and mark the brick as broken
@@ -91,7 +91,7 @@
     circle(ctx, x, y, r);
     //paddle
     rect(ctx, rx, ry, rWidth, rHeight);
-    checkHit(genBricks);
+    checkHit();
     genBricks(ctx, game.getCurrentLevel());
     // willCollideWith(
     //   {name: 'paddle', posY: ry, posX: rx, dimY: rHeight, dimX: rWidth},
