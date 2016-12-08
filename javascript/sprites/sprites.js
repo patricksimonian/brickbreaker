@@ -32,7 +32,7 @@ function genBricks(ctx, level) {
     ctx.fillStyle = colours[index];
     ctx.beginPath();
     if(elm.isHit === false) {
-      ctx.rect(elm.posX * 50, elm.posY * 25, elm.width, elm.height);
+      ctx.rect(elm.posX * elm.width, elm.posY * elm.height, elm.width, elm.height);
     }
     ctx.closePath();
     ctx.fill();

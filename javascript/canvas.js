@@ -1,6 +1,7 @@
 
 (function initialize() {
   var level1 = "===========,== == ====, == == == , === === =";
+  var level2 = "  ==  ==  ==  ==, == == == == ===, ====     =   ";
   var canvas = document.getElementById('game');
   var ctx = canvas.getContext("2d");
   canvas.height = 500;
@@ -9,21 +10,21 @@
   var WIDTH = canvas.width;
 
   //for ball
-  var x = 150;
-  var y = 150;
+  var x = .5 * WIDTH;
+  var y = .5 * HEIGHT;
   var r = 10;
   var dx = 2;
   var dy = 4;
 
   //paddle
-  var rx = 50;
-  var ry = 450;
-  var rWidth = 100;
-  var rHeight = 25;
+  var rx = .1 * WIDTH;
+  var ry = .9 * HEIGHT;
+  var rWidth = .2 * WIDTH;
+  var rHeight = .05 * HEIGHT;
   var move = null;
 
   //get current level
-  var game = new LevelParser().buildLevel(level1);
+  var game = new LevelParser(WIDTH, HEIGHT).buildLevel(level1);
   var bricks = game.getCurrentLevel();
 
   //event listener for moving paddle
@@ -112,8 +113,6 @@
         dx = dx > 0 ? -3 : 2;
       } else if(x > (rx + (.75 * rWidth)) && x < (rx + rWidth)) {
         dx = dx > 0 ? 3 : 2;
-      } else {
-        dx = dx > 0 ? -dx : dx;
       }
       dy = -dy;
     }
