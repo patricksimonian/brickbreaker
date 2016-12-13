@@ -59,7 +59,7 @@
 
   // set game loop
   function init() {
-    return setInterval(draw, 10);
+    return setInterval(draw, 250);
   }
 
   //clear canvas to emulate animation
@@ -94,10 +94,10 @@
     rect(ctx, rx, ry, rWidth, rHeight);
     checkHit();
     genBricks(ctx, game.getCurrentLevel());
-    // willCollideWith(
-    //   {name: 'paddle', posY: ry, posX: rx, dimY: rHeight, dimX: rWidth},
-    //   {name: 'ball', posY: y, posX: x, radius: r, dx: dx, dy: dy}
-    // );
+    willCollideWith(
+      {name: 'paddle', posY: ry, posX: rx, dimY: rHeight, dimX: rWidth},
+      {name: 'ball', posY: y, posX: x, radius: r, dx: dx, dy: dy}
+    );
 
     //collision against wall
     if (x + dx > (WIDTH - r) || x + dy < r){

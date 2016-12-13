@@ -33,10 +33,18 @@ function willCollideWith(spriteObj, projectileObj) {
   //get current angle of ball;
   // adding a  (PI/2) radians to rotate the cartesian plane so that it matches the canvas's
   // cartesian plane
-  let theta = Math.atan(projectileObj.dx / projectileObj.dy) + (Math.PI * .5);
-  console.log("checking collision for: ", spriteObj.name);
-  console.log("projectile: ", projectileObj.name, "current angle is: ",  theta);
-
+  console.log(`x component: ${projectileObj.dx}, y component: ${projectileObj.dy}`)
+  let theta = Math.atan(projectileObj.dy / projectileObj.dx);
+  let deltaY = (spriteObj.posY - projectileObj.posY);
+  let hyp = deltaY/ Math.cos(theta);
+  let deltaX = Math.sqrt((hyp*hyp) - (deltaY*deltaY));
+  // if(projectileObj.posY >= 450) {
+  //   debugger;
+  // }
+  console.log(deltaX, projectileObj.posX);
+  console.log("ball is going to land.. at" + (deltaX + projectileObj.posX));
+  // console.log("checking collision for: ", spriteObj.name);
+  // console.log("projectile: ", projectileObj.name, "current angle is: ",  theta);
 }
 function hasItCollided(dx, dy, spritePosX, spritePosY, spriteDim, HBounds, VBounds) {
   hasCollided = false;
