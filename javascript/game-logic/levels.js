@@ -21,7 +21,7 @@
 //          incrementing by the height of a brick(25)
 //          ----------------------------------------------
 //          '=':
-//           is a brick of 25 height and 50 width
+//           is a brick of .05 * canvas height and .1 * canvas width
 //          ----------------------------------------------
 //          ' ':
 //           is an empty space of 25 height and 50 width
@@ -40,10 +40,12 @@
 //
 //      returns levels [[]]
 
-function LevelParser() {
+function LevelParser(gameWidth, gameHeight) {
   //split elements by their commas
   this.level = [];
   this.levels = [];
+  this.gameWidth = gameWidth;
+  this.gameHeight = gameHeight;
   return this;
 }
 
@@ -60,12 +62,13 @@ LevelParser.prototype.buildLevel = function(level) {
         brick.posY = index;
         switch(elm2) {
           case "=":
-            brick.height = 25;
-            brick.width = 50;
+            brick.height = .05 * this.gameHeight;
+            brick.width = .1 * this.gameWidth;
             brick.isHit = false;
             this.level.push(brick);
             break;
           case "":
+            //empty space
             brick.height = 0;
             brick.width = 0;
             brick.isHit = null;
